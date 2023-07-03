@@ -1,15 +1,15 @@
 ﻿namespace LINQPart2{
     internal class Program{
-        static void Main(string[] args){
+        static void Main(string[] args)
+        {
+            Console.WriteLine(CountCommon("one", "two"));
+        }
 
-            //Задание 15.1.4 Напишите метод для поиска общих букв в двух словах.
-
-            string[] WO = { "Тебе" };
-            string[] GO = { "Тебе" };
-
-            var DO = WO.Intersect(GO);
-
-            foreach(var x in DO) { Console.WriteLine(x); }
+        static int CountCommon(string word1, string word2)
+        {
+            var amount = word1.Intersect(word2)//   ищем пересечение
+     .Count(); // считаем количество
+            return amount;
         }
     }
 }
