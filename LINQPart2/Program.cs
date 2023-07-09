@@ -1,41 +1,51 @@
 ﻿namespace LINQPart2
 {
     internal class Program
-    {
-        //   статическая переменная для хранения данных в памяти
-        public static List<long> Numbers = new List<long>();
+    {    // Задание 15.4.1
 
         static void Main(string[] args)
         {
-            while (true)
+            var departments = new List<Department>()
+
             {
-                // Читаем введенный с консоли  текст
-                var input = Console.ReadLine();
+                  new Department() {Id = 1, NameDepartment = "Программирование"},
+                  new Department() {Id = 2, NameDepartment = "Продажи"}
+            };
 
-                // проверяем, число ли это
-                var isInteger = long.TryParse(input, out long inputNum);
+            var employees = new List<Employee>()
+            {
+               new Employee() { DepartmentId = 1, Name = "Инна", Id = 1},
+               new Employee() { DepartmentId = 1, Name = "Андрей", Id = 2},
+               new Employee() { DepartmentId = 2, Name = "Виктор ", Id = 3},
+               new Employee() { DepartmentId = 3, Name = "Альберт ", Id = 4},
 
-                // если не число - показываем ошибку
-                if (!isInteger)
+               
+            };
+            var result = departments.Join(employees,
+                dep => dep.Id,
+                emp => emp.Id,
+                (dep, emp) =>
+                new
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Вы ввели не число");
-                }
-                // если соответствует, запускаем обработчик
-                else
-                {
-                    // добавляем в список
-                    Numbers.Add(inputNum);
-
-                    // выводим все критерии
-                    Console.WriteLine("Число " + input + " добавлено в список.");
-                    Console.WriteLine($"Всего в списке  { Numbers.Count} чисел");
-                    Console.WriteLine($"Сумма:  {Numbers.Sum()}");
-                    Console.WriteLine($"Наибольшее:  {Numbers.Max()}");
-                    Console.WriteLine($"Наименьшее:  {Numbers.Min()}"); Console.WriteLine($"Среднее:  {Numbers.Average()}");
-                    Console.WriteLine();
-                }
-            }
+                    NameDepartment1 = dep.NameDepartment,
+                    Name1 = emp.Name
+                });
+            foreach (var wo in result)
+                Console.WriteLine($"{wo.Name1} - {wo.NameDepartment1}");
         }
     }
+
+    public class Department
+    {
+        public int Id { get; set; }
+        public string NameDepartment { get; set; }
+    }
+    public class Employee
+    {
+        public int DepartmentId { get; set; }
+        public string Name { get; set; }
+        public int Id { get; set; }
+    }
+
+    
 }
